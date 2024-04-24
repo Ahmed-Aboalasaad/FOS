@@ -1,6 +1,6 @@
 @echo off
-rmdir /s /q "..\FOS_CODES/FOS_Labs_Template\obj"
+rmdir /s /q "..\FOS_CODES/FOS_PROJECT_2024_template\obj"
 chdir ..\bin
 
-bash --login -c 'cd c:/fos_cygwin/FOS_CODES/FOS_Labs_Template; export PATH="c:\fos_cygwin\opt\cross\bin:$PATH"; make -j all;'
+bash --login -c 'cd c:/FOS/FOS_CODES/FOS_PROJECT_2024_template; export PATH="c:\FOS\opt\cross\bin:$PATH"; make -j all;'
 exit

@@ -1,4 +1,4 @@
-19:45:19 **** Incremental Build of configuration Default for project FOS_Assignment_Template ****
+03:25:30 **** Incremental Build of configuration Default for project FOS_Assignment_Template ****
 make -j16 all 
 + cc kern/command_prompt.c
 kern/command_prompt.c: In function 'TransferUserPage':
@@ -20,5 +20,5 @@ cc1: all warnings being treated as errors
 kern/Makefrag:51: recipe for target 'obj/kern/command_prompt.o' failed
 make: *** [obj/kern/command_prompt.o] Error 1
 
-19:45:20 Build Finished (took 665ms)
+03:25:30 Build Finished (took 547ms)
 

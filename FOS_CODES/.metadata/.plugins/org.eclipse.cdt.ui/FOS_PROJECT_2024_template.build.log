@@ -1,6 +1,8 @@
-19:45:41 **** Incremental Build of configuration Default for project FOS_PROJECT_2024_template ****
+03:25:36 **** Incremental Build of configuration Default for project FOS_PROJECT_2024_template ****
 make -j16 all 
-make: Nothing to be done for 'all'.
++ cc kern/command_prompt.c
++ ld -m elf_i386 obj/kern/kernel
++ mk obj/kern/bochs.img
 
-19:45:41 Build Finished (took 252ms)
+03:25:41 Build Finished (took 5s.165ms)
 

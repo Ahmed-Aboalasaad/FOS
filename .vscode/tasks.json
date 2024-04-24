@@ -29,7 +29,7 @@
         "bochscon.bat"
       ],
       "options": {
-        "cwd": "${workspaceFolder}/FOS_CODES/FOS_Labs_Template"
+        "cwd": "${workspaceFolder}/FOS_CODES/FOS_PROJECT_2024_template"
       },
       "group": {
         "kind": "build",
@@ -47,7 +47,7 @@
       "command": "cmd",
       "args": [
         "/c",
-        "qemu-system-x86_64.exe -drive format=raw,file=${workspaceFolder}/FOS_CODES/FOS_Labs_Template/obj/kern/bochs.img"
+        "qemu-system-x86_64.exe -drive format=raw,file=${workspaceFolder}/FOS_CODES/FOS_PROJECT_2024_template/obj/kern/bochs.img"
       ],
       "options": {
         "cwd": "${workspaceFolder}/qemu"

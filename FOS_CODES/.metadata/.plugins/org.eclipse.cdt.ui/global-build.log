@@ -2096,3 +2096,35 @@ make: *** [obj/kern/command_prompt.o] Error 1
 19:45:41 **** Incremental Build of configuration Default for project FOS_PROJECT_2024_template ****
 make -j16 all 
 make: Nothing to be done for 'all'.
+03:18:12 **** Incremental Build of configuration Default for project FOS_PROJECT_2024_template ****
+make -j16 all 
+make: Nothing to be done for 'all'.
+03:22:54 **** Incremental Build of configuration Default for project FOS_PROJECT_2024_template ****
+make -j16 all 
+make: Nothing to be done for 'all'.
+03:25:30 **** Incremental Build of configuration Default for project FOS_Assignment_Template ****
+make -j16 all 
++ cc kern/command_prompt.c
+kern/command_prompt.c: In function 'TransferUserPage':
+kern/command_prompt.c:610:37: error: passing argument 2 of 'get_page_table' makes pointer from integer without a cast [-Werror=int-conversion]
+  get_page_table(ptr_page_directory, src, 1, &src_PT);
+                                     ^
+In file included from kern/command_prompt.c:23:0:
+./kern/memory_manager.h:62:5: note: expected 'const void *' but argument is of type 'uint32 {aka unsigned int}'
+ int get_page_table(uint32 *ptr_page_directory, const void *virtual_address, int create, uint32 **ptr_page_table);
+     ^
+kern/command_prompt.c:615:37: error: passing argument 2 of 'get_page_table' makes pointer from integer without a cast [-Werror=int-conversion]
+  get_page_table(ptr_page_directory, dst, 1, &dst_PT);
+                                     ^
+In file included from kern/command_prompt.c:23:0:
+./kern/memory_manager.h:62:5: note: expected 'const void *' but argument is of type 'uint32 {aka unsigned int}'
+ int get_page_table(uint32 *ptr_page_directory, const void *virtual_address, int create, uint32 **ptr_page_table);
+     ^
+cc1: all warnings being treated as errors
+kern/Makefrag:51: recipe for target 'obj/kern/command_prompt.o' failed
+make: *** [obj/kern/command_prompt.o] Error 1
+03:25:36 **** Incremental Build of configuration Default for project FOS_PROJECT_2024_template ****
+make -j16 all 
++ cc kern/command_prompt.c
++ ld -m elf_i386 obj/kern/kernel
++ mk obj/kern/bochs.img
