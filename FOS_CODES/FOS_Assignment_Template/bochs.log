@@ -1,0 +1,2 @@
+61306577833e[CPU0  ] interrupt(): gate descriptor is not valid sys seg (vector=0x08)
+61306577833e[CPU0  ] exception(): 3rd (13) exception with no resolution, shutdown status is 00h, resetting

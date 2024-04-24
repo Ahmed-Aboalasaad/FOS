@@ -1,0 +1,6 @@
+19:45:41 **** Incremental Build of configuration Default for project FOS_PROJECT_2024_template ****
+make -j16 all 
+make: Nothing to be done for 'all'.
+
+19:45:41 Build Finished (took 252ms)
+
