@@ -1,0 +1,66 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Build FOS Project",
+      "type": "shell",
+      "command": "cmd",
+      "args": [
+        "/c",
+        "build.bat"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "presentation": {
+        "reveal": "always"
+      },
+      "options": {
+        "cwd": "${workspaceFolder}/.vscode"
+      }
+    },
+    {
+      "label": "Run FOS",
+      "type": "shell",
+      "command": "cmd",
+      "args": [
+        "/c",
+        "bochscon.bat"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}/FOS_CODES/FOS_Labs_Template"
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "dependsOrder": "sequence",
+      "dependsOn": [
+        "Build FOS Project"
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "Run FOS-qemu",
+      "type": "shell",
+      "command": "cmd",
+      "args": [
+        "/c",
+        "qemu-system-x86_64.exe -drive format=raw,file=${workspaceFolder}/FOS_CODES/FOS_Labs_Template/obj/kern/bochs.img"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}/qemu"
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "dependsOrder": "sequence",
+      "dependsOn": [
+        "Build FOS Project"
+      ],
+      "problemMatcher": []
+    }
+  ]
+}
