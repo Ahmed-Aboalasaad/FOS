@@ -220,7 +220,6 @@ int command_kernel_info(int number_of_arguments, char **arguments )
 	return 0;
 }
 
-
 int command_readmem(int number_of_arguments, char **arguments)
 {
 	unsigned int address = strtol(arguments[1], NULL, 16);
@@ -319,23 +318,23 @@ int command_readblock(int argc, char **argv)
 
 int command_createintarray(int argc, char **argv)
 {
-	/*
 	if (argc != 2)
 	{
 		cprintf("Usage: create_int_array <array size>\n");
 		return 0;
 	}
 	int arrLen = strtol(argv[1], NULL, 10);
-	int *allocatedArr = (int *)malloc(sizeof(int) * arrLen);
-	if (!allocatedArr)
-	{
-		cprintf("No available Memory\n");
-		return 0;
-	}
-	cprintf("The start virtual address of the allocated array is: 0x%x", allocatedArr);
-	for(int i = 0; i < arrLen; i++, allocatedArr++)
-		cprintf("Element %d: %d\n", i, *allocatedArr);
-	*/
+
+	// Write letters starting from 0xF1000000
+	unsigned char *ptr = (unsigned char *)0xF1000000;
+	for (int i = 0; i < arrLen; i++)
+		*(ptr + i) = 'A' + i;
+
+	// Print the array info
+	cprintf("\nThe start virtual address of the allocated array is: 0x%x\n", ptr);
+	for(int i = 0; i < arrLen; i++)
+		cprintf("Element %d: %c\n", i, *(ptr + i));
+
 	return (0);
 }
 
@@ -346,8 +345,23 @@ int command_kernel_base_info(int number_of_arguments, char **arguments)
 {
 	//TODO: LAB3 Example: fill this function. corresponding command name is "ikb"
 	//Comment the following line
-	panic("Function is not implemented yet!");
+	// panic("Function is not implemented yet!");
 
+	uint32 PA;
+	uint32 Entry1 = ptr_page_directory[PDX(KERNEL_BASE)];
+	uint32 *PT;
+	get_page_table(ptr_page_directory, (void *)KERNEL_BASE, 1, &PT);
+	if (!PT) {
+		cprintf("Error in get_page_table()\n");
+		return 1;
+	}
+	uint32 entry2 = PT[PTX(KERNEL_BASE)];
+	uint32 frameNum = entry2 >> 12;
+
+	cprintf("Kernel_Base Info:\n");
+	cprintf("\tVirtual Address: 0x%x\n", KERNEL_BASE);
+	cprintf("\tPysical Address: 0x%x\n", frameNum * PAGE_SIZE);
+	
 	return 0;
 }
 
@@ -414,19 +428,19 @@ int command_set_permission(int argc, char **argv)
 		cprintf("Usage: sp <virtual address> <r/w>\n");
 		return (0);
 	}
+
 	uint32 virtualAddress = strtol(argv[1], NULL, 16);
 	char *mode = argv[2];
 	uint32 *PT;
-	int error = get_page_table(ptr_page_directory, (void *)virtualAddress, 1, &PT);
-	if (error) {
+	if (get_page_table(ptr_page_directory, (void *)virtualAddress, 1, &PT)) {
 		cprintf("Error in get_page_table()\n");
 		return (1);
 	}
 	uint32 entry = PT[PTX(virtualAddress)];
 
-	if (strcmp(mode, "w") == 0)// Writable -> Set
+	if (strcmp(mode, "w") == 0) // Writable -> Set
 		PT[PTX(virtualAddress)] = entry | PERM_WRITEABLE;
-	else if (strcmp(mode, "r") == 0) // Read Only -> not Writable -> Reset
+	else if (strcmp(mode, "r") == 0) // Read Only -> Reset
 		PT[PTX(virtualAddress)] = entry & ~PERM_WRITEABLE;
 	else
 		cprintf("Usage: sp <virtual address> <r/w>\n");
@@ -446,9 +460,11 @@ int command_share_range(int argc, char **argv)
 
 	// Go to the entries in level 2 and set their frame numbers to one of them
 
+	// Read arguments
 	uint32 va1 = strtol(argv[1], NULL, 16);
 	uint32 va2 = strtol(argv[2], NULL, 16);
-	uint32 size = strtol(argv[3], NULL, 16);
+	uint32 sizeInKB = strtol(argv[3], NULL, 16);
+	uint32 sizeInPages = sizeInKB / PAGE_SIZE;
 
 	uint32 *PT1;
 	if(get_page_table(ptr_page_directory, (void *)va1, 1, &PT1)) {
@@ -464,11 +480,7 @@ int command_share_range(int argc, char **argv)
 	}
 	uint32 *ptr2 = PT2 + PTX(va2);
 
-	for (uint32 frame1, frame2, i = 0; i < size; i++) {
-//		frame1 = (*ptr1 >> 12) << 12;
-//		frame2 = (*ptr2 >> 12) << 12;
-//		*ptr2 -= frame2;
-//		*ptr2 += frame1;
+	for (uint32 frame1, frame2, i = 0; i < sizeInPages; i++) {
 		*ptr2 = *ptr1;
 	}
 
